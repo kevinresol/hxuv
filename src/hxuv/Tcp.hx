@@ -46,6 +46,12 @@ class Tcp extends Stream {
 		return result;
 	}
 	
+	public inline function getsockname()
+		return tcp.getSockAddress();
+	
+	public inline function getpeername()
+		return tcp.getPeerAddress();
+	
 	override function finalize() {
 		if(tcp != null) {
 			tcp.destroy();
