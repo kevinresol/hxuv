@@ -1,6 +1,5 @@
 package haxe;
 
-import uv.Uv;
 import cpp.*;
 
 // patch Timer so that MainLoop is not generated
@@ -38,6 +37,6 @@ class Timer {
   }
   
   public static function stamp():Float {
-    return Uv.hrtime() / 1e9;
+    return hxuv.Misc.hrtime() / 1e9;
   }
 }
