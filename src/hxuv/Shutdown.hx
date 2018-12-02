@@ -22,7 +22,6 @@ class Shutdown extends Req {
 		switch Std.instance((handle.getData():Shutdown), Shutdown) {
 			case null: throw 'No wrapper instance is stored in this handle';
 			case v: 
-				trace(Stream.retrieve(handle.handle, false) == v.stream);
 				if(release) {
 					v.release();
 					v.stream.release();

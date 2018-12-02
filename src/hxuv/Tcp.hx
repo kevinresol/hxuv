@@ -53,6 +53,10 @@ class Tcp extends Stream {
 		}
 	}
 	
+	override function createClient():Stream {
+		return alloc();
+	}
+	
 	override function cleanup() {
 		super.cleanup();
 		tcp = null;

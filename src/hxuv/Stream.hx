@@ -28,16 +28,16 @@ class Stream extends Handle {
 		}
 	}
 	
-	// public function shutdown(cb) {
-	// 	var req = Shutdown.alloc(this);
-	// 	var result = stream.shutdown(req.shutdown, cb);
-		
-	// 	if(result == 0 && cb != null) {
-	// 		retain();
-	// 		req.retain();
-	// 	}
-	// 	return result.toResult();
-	// }
+	public function shutdown(cb:Int->Void) {
+		var req = Shutdown.alloc(this);
+		req.data = cb;
+		var result = stream.shutdown(req.shutdown, Callable.fromStaticFunction(onShutdown));
+		if(result == 0) {
+			retain();
+			req.retain();
+		}
+		return result;
+	}
 	
 	public function listen(backlog, cb) {
 		var result = stream.listen(backlog, Callable.fromStaticFunction(onConnection));
@@ -87,7 +87,7 @@ class Stream extends Handle {
 	}
 	
 	function createClient():Stream {
-		throw 'abstract';
+		return alloc();
 	}
 	
 	override function cleanup() {
@@ -95,9 +95,11 @@ class Stream extends Handle {
 		stream = null;
 	}
 	
-	// static function onShutdown(req:RawPointer<Shutdown_t>, status:Int) {
-		
-	// }
+	static function onShutdown(req:RawPointer<Shutdown_t>, status:Int) {
+		var shutdown = Shutdown.retrieve(req);
+		var cb:Int->Void = shutdown.data;
+		cb(status);
+	}
 	
 	function set_read_cb(v) {
 		if(read_cb == null && v != null) retain();

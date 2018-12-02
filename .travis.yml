@@ -24,6 +24,9 @@ install:
   - npm i -g lix
   - lix install haxe $HAXE_VERSION
   - lix download
+  - pushd "$(haxe --run resolve-args -lib linc_uv | grep /linc_uv/)/lib" # clone submodules
+  - git clone https://github.com/libuv/libuv
+  - popd
   
 script:
   - lix run travix cpp -lib linc_uv --no-traces

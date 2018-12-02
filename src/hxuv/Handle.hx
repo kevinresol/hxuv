@@ -6,6 +6,8 @@ import cpp.*;
 class Handle extends Base {
 	public var handle(default, null):uv.Handle;
 	
+	var close_cb(default, set):Void->Void;
+	
 	function new(handle) {
 		super();
 		this.handle = handle;
@@ -23,8 +25,13 @@ class Handle extends Base {
 		}
 	}
 	
-	public inline function close(cb) handle.close(cb);
-	public inline function isClosing() return handle.isClosing();
+	public inline function close(cb) {
+		handle.close(Callable.fromStaticFunction(onClose));
+		close_cb = cb;
+	}
+	
+	public inline function isClosing()
+		return handle.isClosing();
 	
 	override function finalize() {
 		if(handle != null) {
@@ -36,5 +43,17 @@ class Handle extends Base {
 	override function cleanup() {
 		super.cleanup();
 		handle = null;
+	}
+	
+	function set_close_cb(v) {
+		if(close_cb == null && v != null) retain();
+		if(close_cb != null && v == null) release();
+		return close_cb = v;
+	}
+	
+	static function onClose(handle:RawPointer<Handle_t>) {
+		var handle = Handle.retrieve(handle);
+		handle.close_cb();
+		handle.close_cb = null;
 	}
 }

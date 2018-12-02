@@ -16,23 +16,23 @@ class Base extends cpp.Finalizable {
 		id = ids++;
 	}
 	
-	public function retain(?pos:haxe.PosInfos) {
+	public function retain() {
 		var count = switch retained.get(this) {
 			case null: 1;
 			case v: v + 1;
 		}
 		retained.set(this, count);
-		haxe.Log.trace('Retained ${toString()}, current reference count = $count', pos);
+		// haxe.Log.trace('Retained ${toString()}, current reference count = $count');
 	}
 	
-	public function release(?pos:haxe.PosInfos) {
+	public function release() {
 		var count = 0;
 		switch retained.get(this) {
 			case null: // do nothing
 			case 0 | 1: retained.remove(this);
 			case v: retained.set(this, count = v - 1);
 		}
-		haxe.Log.trace('Released ${toString()}, current reference count = $count', pos);
+		// haxe.Log.trace('Released ${toString()}, current reference count = $count');
 	}
 	
 	public inline function destroy() {
