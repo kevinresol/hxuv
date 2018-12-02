@@ -5,9 +5,10 @@ class Base extends cpp.Finalizable {
 	static var retained:Map<Base, Int> = new Map();
 	static var ids:Int;
 	
-	var retainCount(get, never):Int;
+	public var retainCount(get, never):Int;
+	public var id(default, null):Int;
+	
 	var data:Any;
-	var id:Int;
 	
 	public function new() {
 		super();
