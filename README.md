@@ -2,21 +2,21 @@
 
 libuv bindings for Haxe
 
-# Philosophy
+## Philosophy
 
 This library targets to express unopinionatedly the libuv api in a Haxe fashion (e.g. managed memory allocation, GC-friendly, allow closures, etc). So there should be 1-to-1 mapping for each API. 
 
-# Documentation
+## Documentation
 
 The original libuv documentation should generally apply. However, function signatures might be slightly different from the original in order to fit the Haxe language.
 
-# Supported targets
+## Supported targets
 
 - C++, requires the [`linc_uv`](https://github.com/kevinresol/linc_uv) library
 
 (possible to support other targets in the future)
 
-# Example
+## Example
 
 ```haxe
 // create a echo tcp server
@@ -43,7 +43,7 @@ tcp.connect('127.0.0.1', 7000, function(status) {
 });
 ```
 
-# Contributions Welcome
+## Contributions Welcome
 
 - Complete the API
 - Support other targets
