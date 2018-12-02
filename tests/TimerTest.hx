@@ -11,7 +11,7 @@ class TimerTest {
     Timer.delay(function() {
       var now = Timer.stamp();
       var dt = now - start;
-      asserts.assert(dt > 1.0);
+      asserts.assert(dt > 0.99); // well, there might be a slight difference
       asserts.assert(Math.round(dt) == 1.0);
       asserts.done();
     }, 1000);

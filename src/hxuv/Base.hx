@@ -3,20 +3,18 @@ package hxuv;
 class Base extends cpp.Finalizable {
 	// TODO: read the docs and make sure this is not a weak map
 	static var retained:Map<Base, Int> = new Map();
-	
-	public var retainCount(get, never):Int;
-	
-	var data:Any;
-	
-	var id:Int;
 	static var ids:Int;
+	
+	var retainCount(get, never):Int;
+	var data:Any;
+	var id:Int;
 	
 	public function new() {
 		super();
 		id = ids++;
 	}
 	
-	public function retain() {
+	function retain() {
 		var count = switch retained.get(this) {
 			case null: 1;
 			case v: v + 1;
@@ -25,7 +23,7 @@ class Base extends cpp.Finalizable {
 		// haxe.Log.trace('Retained ${toString()}, current reference count = $count');
 	}
 	
-	public function release() {
+	function release() {
 		var count = 0;
 		switch retained.get(this) {
 			case null: // do nothing
