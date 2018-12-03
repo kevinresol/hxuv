@@ -17,11 +17,10 @@ class TcpTest {
 			asserts.assert(tcp.retainCount > 0);
 			asserts.assert(!err);
 			var err = tcp.readStart(function(err, bytes) {
-				trace(err, err.isError());
-				if(!err.isError()) {
+				if(!err) {
 					asserts.assert(tcp.retainCount > 0);
 					asserts.assert(bytes.length == err);
-				} else if(err.toErrorCode() == ErrorCode.EOF) {
+				} else if(err.is(EOF)) {
 					asserts.assert(tcp.retainCount == 0);
 					asserts.assert(bytes == null);
 					asserts.done();
@@ -49,12 +48,11 @@ class TcpTest {
 			asserts.assert(!err);
 			
 			var err = client.readStart(function(err, bytes) {
-				if(!err.isError()) {
+				if(!err) {
 					client.write(bytes, function(_) {});
-				} else if(err.toErrorCode() == ErrorCode.EOF) {
-					client.close(function() {});
 				} else {
-					trace(ErrorCode.getName(err));
+					client.close(function() {});
+					if(!err.is(EOF)) trace(ErrorCode.getName(err));
 				}
 			});
 			asserts.assert(!err);
@@ -69,7 +67,7 @@ class TcpTest {
 			asserts.assert(!err);
 			
 			var err = tcp.readStart(function(err, bytes) {
-				if(!err.isError()) {
+				if(!err) {
 					asserts.assert(bytes.toString() == 'Hello World!');
 				} else {
 					asserts.assert(err.toErrorCode() == ErrorCode.EOF);

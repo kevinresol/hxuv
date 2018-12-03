@@ -1,8 +1,8 @@
 package hxuv;
 
-typedef Impl = #if lua String #else Int #end ;
+typedef StatusCode = #if lua String #else Int #end ;
 
-abstract Status(Impl) from Impl to Impl {
+abstract Status(StatusCode) from StatusCode to StatusCode {
 	
 	#if lua
 		
@@ -27,6 +27,9 @@ abstract Status(Impl) from Impl to Impl {
 		return this >= 0 ? null : ErrorCode.getName(this);
 	
 	#end
+	
+	public inline function is(err:ErrorCode)
+		return this == err;
 	
 	
 	@:op(!A)
