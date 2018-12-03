@@ -24,7 +24,7 @@ class Tcp extends Stream {
 		}
 	}
 	
-	public function connect(ip, port, cb:Int->Void) {
+	public function connect(ip, port, cb:Status->Void):Status {
 		var req = Connect.alloc(this);
 		var addr = new uv.SockAddrIn(); // TODO: possible to do a stack allocation here?
 		addr.ip4Addr(ip, port);
@@ -38,7 +38,7 @@ class Tcp extends Stream {
 		return result;
 	}
 	
-	public function bind(ip, port, flags) {
+	public function bind(ip, port, flags):Status {
 		var addr = new uv.SockAddrIn(); // TODO: possible to do a stack allocation here?
 		addr.ip4Addr(ip, port);
 		var result = tcp.bind(addr, flags);
@@ -70,7 +70,7 @@ class Tcp extends Stream {
 	
 	static function onConnect(req:RawPointer<Connect_t>, status:Int) {
 		var connect = Connect.retrieve(req);
-		var cb:Int->Void = connect.data;
+		var cb:Status->Void = connect.data;
 		cb(status);
 	}
 }

@@ -7,7 +7,7 @@ import haxe.io.Bytes;
 class Stream extends Handle {
 	public var stream(default, null):uv.Stream;
 	
-	var read_cb(default, set):Int->Bytes->Void;
+	var read_cb(default, set):Status->Bytes->Void;
 	var connection_cb(default, set):Stream->Void;
 	
 	function new(stream:uv.Stream) {
@@ -28,7 +28,7 @@ class Stream extends Handle {
 		}
 	}
 	
-	public function shutdown(cb:Int->Void) {
+	public function shutdown(cb:Status->Void):Status {
 		var req = Shutdown.alloc(this);
 		req.data = cb;
 		var result = stream.shutdown(req.shutdown, Callable.fromStaticFunction(onShutdown));
@@ -39,27 +39,27 @@ class Stream extends Handle {
 		return result;
 	}
 	
-	public function listen(backlog, cb) {
+	public function listen(backlog, cb):Status {
 		var result = stream.listen(backlog, Callable.fromStaticFunction(onConnection));
 		if(result == 0) connection_cb = cb;
 		return result;
 	}
 	
-	public inline function accept(client:Stream)
+	public inline function accept(client:Stream):Status
 		return stream.accept(client.stream);
 		
-	public function readStart(cb) {
+	public function readStart(cb):Status {
 		var result = stream.readStart(Callable.fromStaticFunction(onAlloc), Callable.fromStaticFunction(onRead));
 		if(result == 0) read_cb = cb;
 		return result;
 	}
 	
-	public function readStop() {
+	public function readStop():Status {
 		read_cb = null;
 		return stream.readStop();
 	}
 	
-	public function write(bytes:Bytes, cb:Int->Void) {
+	public function write(bytes:Bytes, cb:Status->Void):Status {
 		var buf = new uv.Buf();
 		buf.alloc(bytes.length);
 		buf.copyFromBytes(bytes, bytes.length);
@@ -73,10 +73,10 @@ class Stream extends Handle {
 		return result;
 	}
 		
-	public inline function isWritable()
+	public inline function isWritable():Bool
 		return stream.isWritable();
 		
-	public inline function isReadable()
+	public inline function isReadable():Bool
 		return stream.isReadable();
 	
 	override function finalize() {
@@ -97,7 +97,7 @@ class Stream extends Handle {
 	
 	static function onShutdown(req:RawPointer<Shutdown_t>, status:Int) {
 		var shutdown = Shutdown.retrieve(req);
-		var cb:Int->Void = shutdown.data;
+		var cb:Status->Void = shutdown.data;
 		cb(status);
 	}
 	
@@ -141,7 +141,7 @@ class Stream extends Handle {
 	
 	static function onWrite(handle:RawPointer<Write_t>, status:Int) {
 		var write = Write.retrieve(handle);
-		var cb:Int->Void = write.data;
+		var cb:Status->Void = write.data;
 		cb(status);
 	}
 }
