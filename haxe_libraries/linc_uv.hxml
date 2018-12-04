@@ -1,3 +1,3 @@
 -D linc_uv=0.0.0
-# @install: lix --silent download "gh://github.com/kevinresol/linc_uv#da4e89b6ce7e84f04cec05fca45b784105559e16" into linc_uv/0.0.0/github/da4e89b6ce7e84f04cec05fca45b784105559e16
--cp ${HAXE_LIBCACHE}/linc_uv/0.0.0/github/da4e89b6ce7e84f04cec05fca45b784105559e16/
+# @install: lix --silent download "gh://github.com/kevinresol/linc_uv#5480ebda12e1cde32f72237bc801e95f9e2d1bc1" into linc_uv/0.0.0/github/5480ebda12e1cde32f72237bc801e95f9e2d1bc1
+-cp ${HAXE_LIBCACHE}/linc_uv/0.0.0/github/5480ebda12e1cde32f72237bc801e95f9e2d1bc1/

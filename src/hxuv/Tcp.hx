@@ -11,9 +11,10 @@ class Tcp extends Stream {
 		this.tcp = tcp;
 	}
 	
-	public static function alloc(?loop:uv.Loop) {
+	public static function alloc(?loop:Loop) {
 		var handle = new uv.Tcp();
-		handle.init(loop == null ? uv.Loop.DEFAULT : loop);
+		if(loop == null) loop = Loop.DEFAULT;
+		handle.init(loop.loop);
 		return new Tcp(handle);
 	}
 	

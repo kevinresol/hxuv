@@ -9,9 +9,10 @@ class RunTests {
     Runner.run(TestBatch.make([
       new TimerTest(),
       new TcpTest(),
+      new FsTest(),
     ])).handle(Runner.exit);
     
-    hxuv.Loop.DEFAULT.run(DEFAULT);
+    hxuv.Loop.DEFAULT.run(hxuv.RunMode.DEFAULT);
   }
   
 }
