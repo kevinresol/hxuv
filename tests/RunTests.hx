@@ -11,7 +11,7 @@ class RunTests {
       new TcpTest(),
     ])).handle(Runner.exit);
     
-    hxuv.Loop.DEFAULT.run();
+    hxuv.Loop.DEFAULT.run(DEFAULT);
   }
   
 }
