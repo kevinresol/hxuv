@@ -24,7 +24,8 @@ class Loop extends Base {
 		}
 	}
 	
-	public inline function run(?mode:RunMode) return loop.run(mode == null ? RunMode.DEFAULT : mode);
+	public inline function run(mode:RunMode)
+		return loop.run(mode);
 	
 	override function finalize() {
 		if(loop != null) {
