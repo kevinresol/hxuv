@@ -1,4 +1,4 @@
-# hxuv
+# hxuv [![Build Status](https://travis-ci.com/kevinresol/hxuv.svg?branch=master)](https://travis-ci.com/kevinresol/hxuv)
 
 libuv bindings for Haxe
 
