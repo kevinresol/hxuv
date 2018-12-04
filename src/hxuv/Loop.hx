@@ -1,6 +1,5 @@
 package hxuv;
 
-import uv.Uv;
 import cpp.*;
 
 class Loop extends Base {
@@ -25,7 +24,7 @@ class Loop extends Base {
 		}
 	}
 	
-	public inline function run(?mode) return loop.run(mode == null ? Uv.RUN_DEFAULT : mode);
+	public inline function run(?mode:RunMode) return loop.run(mode == null ? RunMode.DEFAULT : mode);
 	
 	override function finalize() {
 		if(loop != null) {
