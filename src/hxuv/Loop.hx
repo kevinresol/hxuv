@@ -24,6 +24,7 @@ class Loop extends Base {
 		}
 	}
 	
+	@:unreflective
 	public inline function run(mode:RunMode)
 		return loop.run(mode);
 	
